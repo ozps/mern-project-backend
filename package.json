@@ -1,18 +1,20 @@
 {
   "dependencies": {
-    "axios": "^0.18.0",
     "body-parser": "^1.18.3",
     "cors": "^2.8.5",
-    "crypto-js": "^3.1.9-1",
     "express": "^4.16.4",
+    "jsonwebtoken": "^8.4.0",
     "mongoose": "^5.3.16",
-    "nodemon": "^1.18.8"
+    "nodemon": "^1.18.8",
+    "sha256": "^0.2.0"
   },
   "scripts": {
     "start": "nodemon index.js"
   },
   "name": "mern-peoject-backend",
   "version": "1.0.0",
-  "main": "server.js",
-  "license": "MIT"
+  "main": "index.js",
+  "license": "O",
+  "repository": "https://github.com/ozps/mern-project-backend.git",
+  "author": "ozps"
 }
