@@ -3,6 +3,7 @@ const { Router } = require('express')
 const router = new Router()
 const SHA256 = require('sha256')
 const jwt = require('jsonwebtoken')
+const keys = require('../config/keys')
 const User = require('../models/User')
 
 router.post('/sign_up', async (req, res) => {
@@ -11,28 +12,28 @@ router.post('/sign_up', async (req, res) => {
         password: SHA256(req.body.password)
     })
     await user.save()
-
-    // Return Token
     res.status(200).send({ message: 'Success' })
 })
 
 router.post('/sign_in', (req, res) => {
-    User.find({}, async (error, users) => {
-        var check = false
+    User.find({}, (error, users) => {
+        var user = undefined
         if (error) throw error
         for (let x in users) {
             if (
                 users[x].username === req.body.username &&
                 users[x].password === SHA256(req.body.password)
             ) {
-                check = true
+                user = users[x]
                 break
             }
         }
-
-        // Return Token
-        if (check) await res.send({ message: 'Success' })
-        else await res.send({ message: 'Fail' })
+        if (user !== undefined) {
+            const token = jwt.sign({ data: user._id }, keys.secretKey, {
+                expiresIn: 60 * 60
+            })
+            res.send({ message: 'Success', token: token })
+        } else res.send({ message: 'Fail' })
     })
 })
 
