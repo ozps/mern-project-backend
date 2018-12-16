@@ -6,19 +6,14 @@ const Item = require('../models/Item')
 
 router.post('/place_order', async (req, res) => {
     const decreaseAmount = async id => {
-        await Item.findById(mongoose.Types.ObjectId(id), (error, item) => {
-            if (error) throw error
-            console.log(item)
-            Item.findByIdAndUpdate(
-                mongoose.Types.ObjectId(id),
-                { itemAmount: item.itemAmount - 1 },
-                (error, item2) => {
-                    if (error) throw error
-                }
-            )
-        })
+        try {
+            await Item.findByIdAndUpdate(mongoose.Types.ObjectId(id), {
+                $inc: { itemAmount: -1 }
+            })
+        } catch (error) {
+            console.error(error)
+        }
     }
-
     var orderL = req.body.orderList
     var stock = true
     var amount = 0
@@ -41,34 +36,9 @@ router.post('/place_order', async (req, res) => {
         })
         await order.save()
 
-        //Fix Decrease
-        for (x in orderL) {
+        for (let x in orderL) {
             decreaseAmount(orderL[x].id)
         }
-        // for (x in orderL) {
-        //     Item.findByIdAndUpdate(
-        //         mongoose.Types.ObjectId(orderL[x].id),
-        //         { itemAmount: orderL[x].itemAmount-- },
-        //         (error, item) => {
-        //             if (error) throw error
-        //             res.status(200).send(item)
-        //         }
-        //     )
-        // }
-        // for (x in orderL) {
-        //     let temp = 0
-        //     Item.findById(
-        //         mongoose.Types.ObjectId(orderL[x].id),
-        //         (error, item) => {
-        //             if (error) throw error
-        //             temp = item.itemAmount
-        //             Item.findByIdAndUpdate(
-        //                 mongoose.Types.ObjectId(orderL[x].id),
-        //                 { itemAmount: temp - 1 }
-        //             )
-        //         }
-        //     )
-        // }
         res.status(200).send({ message: 'Success' })
     } else {
         res.status(200).send({ message: 'Fail' })
