@@ -3,7 +3,8 @@ const { Schema } = mongoose
 const userSchema = new Schema(
     {
         username: String,
-        password: String
+        password: String,
+        salt: String
     },
     { versionKey: false }
 )
