@@ -16,7 +16,10 @@ app.use(
         path: [
             // Public routes that don't require authentication
             '/user/sign_in',
-            '/user/sign_up'
+            '/user/sign_up',
+            '/item/get_all_items',
+            '/item/get_detail_item/:id',
+            '/item/search_items'
         ]
     })
 )
