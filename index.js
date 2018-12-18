@@ -19,7 +19,8 @@ app.use(
             '/user/sign_up',
             '/item/get_all_items',
             '/item/get_detail_item/:id',
-            '/item/search_items'
+            '/item/search_items',
+            /\/images*/
         ]
     })
 )
