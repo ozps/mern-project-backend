@@ -37,7 +37,7 @@ router.post('/place_order', async (req, res) => {
         await order.save()
 
         for (let x in orderL) {
-            decreaseAmount(orderL[x].id)
+            decreaseAmount(orderL[x]._id)
         }
         res.status(200).send({ message: 'Success' })
     } else {
